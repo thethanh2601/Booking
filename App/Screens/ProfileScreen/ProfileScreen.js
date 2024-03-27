@@ -1,5 +1,5 @@
-import { View, Text, Image,StyleSheet, FlatList, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import { View, Text, Image,StyleSheet, FlatList, TouchableOpacity, Linking } from 'react-native'
+import React, { useCallback, useState } from 'react'
 import { Ionicons } from '@expo/vector-icons';
 import { SignedOut, useAuth, useUser } from '@clerk/clerk-expo';
 import BookingScreen from '../BookingScreen/BookingScreen';
@@ -14,7 +14,13 @@ export default function ProfileScreen() {
   const handleScreenChange = (page) => {
     navigation.navigate(page);
   };
+  const handleMessBtn = useCallback(() => {
+    onMessBtn();
+  }, [onMessBtn]); 
   
+  const onMessBtn=()=>{
+    Linking.openURL('mailto:'+user?.primaryEmailAddress.emailAddress+"?subject=Xin chào, bạn muốn gập tôi có vc gì?&body=Xin chào");
+  }
 
   const profileMenu=[
     {
@@ -36,6 +42,7 @@ export default function ProfileScreen() {
       id:3,
       name:'Email',
       icon:'mail',
+      link: onMessBtn
 
     },
     {
@@ -61,7 +68,8 @@ export default function ProfileScreen() {
           data={profileMenu}
           renderItem={({item,index})=>(
             <TouchableOpacity style={styles.subContainer}
-            onPress={() => handleScreenChange(item.page)}
+            onPress={() =>  (item.page ? handleScreenChange(item.page) : handleMessBtn())
+            }
             >
               <Ionicons name={item.icon} size={34} color="black" />
               <Text style={{fontFamily:'sona-regu', fontSize:18}}>{item.name}</Text>

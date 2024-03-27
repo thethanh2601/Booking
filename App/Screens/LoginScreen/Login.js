@@ -26,7 +26,7 @@ const Login = () => {
       }, []);
   return (
     <View style={{alignItems:'center'}}>
-      <Image source={require('../../../assets/images/trinh.jpg')}
+      <Image source={require('../../../assets/images/92344e91895ee021a81b6c415484ee87.jpg')}
         style={styles.loginImg}
       />
       <View style={styles.subCOntainer}>

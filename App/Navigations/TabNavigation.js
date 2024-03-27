@@ -6,6 +6,7 @@ import BookingScreen from '../Screens/BookingScreen/BookingScreen';
 import ProfileScreen from '../Screens/ProfileScreen/ProfileScreen';
 import { FontAwesome } from '@expo/vector-icons';
 import HomeNavigation from './HomeNavigation';
+import BookingNavigation from './BookingNavigation';
 const Tab = createBottomTabNavigator();
 export default function TabNavigation() {
   return (
@@ -22,9 +23,9 @@ export default function TabNavigation() {
           )
           }}
         />
-        <Tab.Screen name='booking' component={BookingScreen}
+        <Tab.Screen name='booking' component={BookingNavigation}
             options={{tabBarLabel:({color})=>(
-            <Text style={{color:color, fontSize:12, marginTop:-7}}>Home</Text>
+            <Text style={{color:color, fontSize:12, marginTop:-7}}>Booking</Text>
           ),
           tabBarIcon:({color, sze})=>(
             <FontAwesome name="bookmark" size={24} color={color}  />
@@ -33,7 +34,7 @@ export default function TabNavigation() {
         />
         <Tab.Screen name='profile' component={ProfileScreen}
           options={{tabBarLabel:({color})=>(
-            <Text style={{color:color, fontSize:12, marginTop:-7}}>Home</Text>
+            <Text style={{color:color, fontSize:12, marginTop:-7}}>Profile</Text>
           ),
           tabBarIcon:({color, sze})=>(
             <FontAwesome name="user-circle" size={24} color={color}  />

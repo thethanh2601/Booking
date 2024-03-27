@@ -5,18 +5,16 @@ import HomeScreen from '../Screens/HomScreen/HomeScreen';
 import BusinessListByCategoryScreen from '../Screens/BusinessListByCategoryScreen/BusinessListByCategoryScreen';
 import BusinessDetailsScreen from '../Screens/BusinessDetailsScreen/BusinessDetailsScreen';
 import ItemBookingDetail from '../Screens/BusinessDetailsScreen/ItemBookingDetail';
+import BookingScreen from '../Screens/BookingScreen/BookingScreen';
 
 const Stack = createStackNavigator();
 
-export default function HomeNavigation() {
+export default function BookingNavigation() {
   return (
     <Stack.Navigator screenOptions={{
         headerShown:false
     }}>
-      <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="business-list" 
-      component={BusinessListByCategoryScreen} />
-      <Stack.Screen name="business-detail" component={BusinessDetailsScreen}/> 
+      <Stack.Screen name="Booking" component={BookingScreen} />
       <Stack.Screen name="item-detail" component={ItemBookingDetail}/> 
 
 

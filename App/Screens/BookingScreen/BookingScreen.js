@@ -2,7 +2,7 @@ import { View, Text, FlatList } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import GlobalApi from '../../Utils/GlobalApi'
 import { useUser } from '@clerk/clerk-expo'
-import BusinessListItem from '../BusinessListByCategoryScreen/BusinessListItem';
+import ItemBookingScreen from '../BusinessListByCategoryScreen/ItemBookingScreen';
 
 export default function BookingScreen() {
 
@@ -24,16 +24,16 @@ export default function BookingScreen() {
 
   return (
     <View style={{padding:10}}>
-      <Text style={{fontFamily:'sona-regu', fontSize:20}}>BookingScreen</Text>
+      <Text style={{fontFamily:'sona-bold',marginBottom:5,marginTop:-5, fontSize:20}}>My Booking</Text>
     <View>
       <FlatList
         data={bookingList}
         onRefresh={()=>getUserBookings()}
         refreshing={loading}
         renderItem={({item,index})=>(
-          <BusinessListItem 
-          business={item?.bussinessList}  
-          booking={item}
+          <ItemBookingScreen
+            business={item?.bussinessList}  
+            booking={item}
           />
 
         )}
