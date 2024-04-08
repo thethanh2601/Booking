@@ -6,14 +6,43 @@ import ItemBookingScreen from '../BusinessListByCategoryScreen/ItemBookingScreen
 import { useNavigation } from '@react-navigation/native';
 
 export default function BookingScreen() {
-
+  const navigation = useNavigation();
   const{user}=useUser();
   const [bookingList,setBookingList]=useState([])
   const [loading, setLoading]=useState(false);
 
-  useEffect(()=>{
-    user&&getUserBookings(); 
-  },[user])
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     GlobalApi.getUserBookings(user.primaryEmailAddress.emailAddress).then(resp=>{
+  //       setBookingList(resp.bookings); 
+  //     })
+  //   };
+  //   // Gọi API khi component được gắn kết
+  //   fetchData();
+  //   // Gọi API lại sau mỗi 5 giây
+  //   const interval = setInterval(fetchData, 5000);
+
+  //   // Xóa interval khi component bị unmount
+  //   return () => clearInterval(interval);
+  // }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      GlobalApi.getUserBookings(user.primaryEmailAddress.emailAddress).then(resp=>{
+        console.log(resp)
+        setBookingList(resp.bookings);
+      })
+    };
+
+// // Gọi API khi component được focus
+// const subscription = navigation.addListener('focus', fetchData);
+// // Xóa subscription khi component bị unmount
+// return () => subscription.remove();
+
+  navigation.addListener('focus', fetchData);
+
+  }, []);
   
   const getUserBookings=()=>{
     setLoading(true);

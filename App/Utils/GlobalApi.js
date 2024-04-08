@@ -150,6 +150,21 @@ const DeleteBooking =async(id)=>{
   return result;
 }
 
+const getSeach =async(tim)=>{
+  const query = gql`
+  query MyQuery {
+    bussinessLists(where: {_search: "`+tim+`"}) {
+      name
+      contactPeson
+    }
+  }
+  
+  `
+  const result= await request(MASTER_URL, query);
+  return result;
+}
+
+
 
 
 export default{
@@ -159,7 +174,8 @@ export default{
     getBusinesslistByCategory,
     createBooking,
     getUserBookings,
-    DeleteBooking
+    DeleteBooking,
+    getSeach
 
 }
 
