@@ -1,23 +1,46 @@
-import { View, Text, Image, StyleSheet, ScrollView, Modal, Linking } from 'react-native'
+import { View, Text, Image, StyleSheet, ScrollView, Modal, Linking, ToastAndroid, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
-import Heading from '../../Components/Heading';
 import BusinessPhoto from './BusinessPhoto';
-import BusinessAboutMe from './BusinessAboutMe';
 import BookingModal from './BookingModal';
+import GlobalApi from '../../Utils/GlobalApi';
+
 
 export default function ItemBookingDetail() {
   const param=useRoute().params;
     const [business,setBusiness]=useState(param.business);
     const [booking,setBooking]=useState(param.booking);
-    const [showModal, setShowModal]=useState(false)
+    const [showModal, setShowModal]=useState(false);
     const navigation=useNavigation();
-    useEffect(()=>{
-        
-    },[])
+    
+    const getDeleBooking = () => {
+      Alert.alert(
+        "Xác nhận xóa đặt chỗ",
+        "Bạn có chắc chắn muốn xóa đặt chỗ này?",
+        [
+          {
+            text: "Hủy",
+            onPress: () => console.log("Hủy xóa đặt chỗ"),
+            style: "cancel",
+          },
+          {
+            text: "OK",
+            onPress: () => {
+              GlobalApi.DeleteBooking(booking.id).then(resp => {
+                console.log(resp);
+                navigation.goBack();
+              }).catch(error => {
+                console.error("Error deleting booking:", error);
+              });
+            },
+          },
+        ]
+      );
+    };
 
+    
     const onMessBtn=()=>{
       Linking.openURL('mailto:'+business?.email+"?subject=Xin chào, bạn muốn gập tôi có vc gì?&body=Xin chào");
     }
@@ -75,7 +98,7 @@ export default function ItemBookingDetail() {
       margin:8, gap:8}}>
       <View style={{ flex:1 }}>
       <TouchableOpacity style={styles.messbtn}
-      onPress={()=>onMessBtn()}>
+      onPress={()=>setShowModal(true)}>
         <Text style={{
           textAlign:'center',
           fontFamily:'sona-regu',
@@ -87,7 +110,8 @@ export default function ItemBookingDetail() {
 
       <View style={{ flex:1 }}>
       <TouchableOpacity style={styles.booking}
-      onPress={()=>setShowModal(true)}>
+        onPress={()=>getDeleBooking()}
+        >
         <Text style={{
           textAlign:'center',
           fontFamily:'sona-regu',

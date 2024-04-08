@@ -138,6 +138,19 @@ const getUserBookings =async(userEmail)=>{
 }
 
 
+const DeleteBooking =async(id)=>{
+  const mutationQuery = gql`
+  mutation DeleBooking {
+    deleteBooking(where: {id: "`+id+`"}) {
+      id
+    }
+  }
+  `
+  const result= await request(MASTER_URL, mutationQuery);
+  return result;
+}
+
+
 
 export default{
     getSlider,
@@ -145,7 +158,8 @@ export default{
     getBusinessList,
     getBusinesslistByCategory,
     createBooking,
-    getUserBookings
+    getUserBookings,
+    DeleteBooking
 
 }
 

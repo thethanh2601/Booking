@@ -11,18 +11,47 @@ export default function ProfileScreen() {
   const{user}=useUser();
   const navigation=useNavigation();
 
-  const navigateToHome = () => {
-    navigation.navigate('Home');
+  const handleScreenChange = (page) => {
+    navigation.navigate(page);
   };
-  const navigateToBooKing = () => {
-    navigation.navigate('booking');
-  };
-
-  const onMessBtn=()=>{
-    Linking.openURL('mailto:'+user?.primaryEmailAddress.emailAddress+
-    "?subject=Xin chào, bạn muốn gặp tôi có vc gì?&body=Xin chào");
-  }
+  const handleMessBtn = useCallback(() => {
+    onMessBtn();
+  }, [onMessBtn]); 
   
+  const onMessBtn=()=>{
+    Linking.openURL('mailto:'+user?.primaryEmailAddress.emailAddress+"?subject=Xin chào, bạn muốn gập tôi có vc gì?&body=Xin chào");
+  }
+
+  const profileMenu=[
+    {
+      id:1,
+      name:'Home',
+      icon:'home',
+      page:'home'
+
+    },
+    {
+      id:2,
+      name:'My Booking',
+      icon:'bookmark',
+      page:'booking'
+
+
+    },
+    {
+      id:3,
+      name:'Email',
+      icon:'mail',
+      link: onMessBtn
+
+    },
+    {
+      id:4,
+      name:'Logout',
+      icon:'log-out',
+      page:'LogOut'
+    }
+  ]
   return (
     <View>
       <View style={{padding:20,paddingTop:30, backgroundColor:'pink'}}>
@@ -34,31 +63,19 @@ export default function ProfileScreen() {
           <Text style={{fontSize:18,fontFamily:'sona-regu',color:'white'}}>{user?.primaryEmailAddress.emailAddress}</Text>
         </View>
       </View>
-      <View style={{margin:10,marginTop:20}}>
-        <TouchableOpacity style={styles.subContainer}
-        onPress={()=>navigateToHome()}>
-          <Ionicons name="home" size={34} color="black" />
-          <Text style={styles.ButtonText}>Home</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.subContainer}
-        onPress={()=>navigateToBooKing()}>
-          <Ionicons name="bookmark" size={34} color="black" />
-          <Text style={styles.ButtonText}>BooKing</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.subContainer}
-        onPress={()=>onMessBtn()}>
-          <Ionicons name="mail" size={34} color="black" />
-          <Text style={styles.ButtonText}>Mail</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.subContainer}
-        onPress={()=>onMessBtn()}>
-          <Ionicons name="log-out" size={34} color="black" />
-          <Text style={styles.ButtonText}>Log Out</Text>
-        </TouchableOpacity>
-        
+      <View style={{paddingTop:10}}>
+        <FlatList
+          data={profileMenu}
+          renderItem={({item,index})=>(
+            <TouchableOpacity style={styles.subContainer}
+            onPress={() =>  (item.page ? handleScreenChange(item.page) : handleMessBtn())
+            }
+            >
+              <Ionicons name={item.icon} size={34} color="black" />
+              <Text style={{fontFamily:'sona-regu', fontSize:18}}>{item.name}</Text>
+            </TouchableOpacity>
+          )}
+        />
       </View>
     </View>
   )
@@ -74,12 +91,7 @@ const styles = StyleSheet.create({
     display:'flex',
     flexDirection:'row',
     alignItems:'center',
-    gap:10, 
+    gap:5, 
     marginBottom:10,
-    paddingHorizontal:30
-  },
-  ButtonText:{
-    fontFamily:'itim',
-    fontSize:28
-  }
+    paddingHorizontal:30}
 })

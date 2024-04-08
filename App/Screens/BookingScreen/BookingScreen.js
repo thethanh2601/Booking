@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import GlobalApi from '../../Utils/GlobalApi'
 import { useUser } from '@clerk/clerk-expo'
 import ItemBookingScreen from '../BusinessListByCategoryScreen/ItemBookingScreen';
+import { useNavigation } from '@react-navigation/native';
 
 export default function BookingScreen() {
 
@@ -11,20 +12,22 @@ export default function BookingScreen() {
   const [loading, setLoading]=useState(false);
 
   useEffect(()=>{
-    user&&getUserBookings();
+    user&&getUserBookings(); 
   },[user])
+  
   const getUserBookings=()=>{
     setLoading(true);
     GlobalApi.getUserBookings(user.primaryEmailAddress.emailAddress).then(resp=>{
       console.log(resp)
       setBookingList(resp.bookings);
-      setLoading(false)
+      setLoading(false) 
     })
   }
 
   return (
     <View style={{padding:10}}>
-      <Text style={{fontFamily:'sona-bold',marginBottom:5,marginTop:-5, fontSize:20}}>My Booking</Text>
+      <Text style={{fontFamily:'sona-bold',marginBottom:5,marginTop:-5, fontSize:20}}
+      onPress={()=>getUserBookings()}>My Booking</Text>
     <View>
       <FlatList
         data={bookingList}
